@@ -1,0 +1,12 @@
+stages:
+  - deploy
+
+deploy_to_s3:
+  image: amazon/aws-cli
+  stage: deploy
+  script:
+    - echo "Deploy S3"
+    - aws s3 sync ./ s3://$S3_BUCKET_NAME --delete
+    - echo "ENDPOINT https://$S3_BUCKET_NAME.s3-website-$AWS_DEFAULT_REGION.amazonaws.com"
+  only:
+    - master
