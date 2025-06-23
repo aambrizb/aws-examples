@@ -1,0 +1,20 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "sam-ec2"
+resolve_s3 = true
+s3_prefix = "sam-ec2"
+region = "us-east-1"
+profile = "aambrizb"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
+
+[aambrizb.deploy.parameters]
+stack_name = "sam-ec2"
+resolve_s3 = true
+s3_prefix = "sam-ec2"
+region = "us-east-1"
+profile = "aambrizb"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []

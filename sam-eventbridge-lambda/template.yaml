@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sam-eventbridge-lambda
+
+  Sample SAM Template for SAM EventBridge, S3, Lambda
+  When S3 Objects has created => EventBridge invoke Lambda function for send email.
+
+Globals:
+  Function:
+    Timeout: 15
+
+Resources:
+
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: aambrizb-eventbridge
+      NotificationConfiguration:
+        EventBridgeConfiguration:
+          EventBridgeEnabled: true
+
+  BucketEventRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: Trigger lambda created object on S3
+      EventPattern:
+        source:
+          - aws.s3
+        detail-type:
+          - Object Created
+        detail:
+          bucket:
+            name:
+              - !Ref Bucket
+      Targets:
+        - Arn: !GetAtt SendEmailFunction.Arn
+          Id: SendEmailFunctionTarget
+
+  InvokeLambda:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref SendEmailFunction
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt BucketEventRule.Arn
+
+  SendEmailFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: send_email/
+      Handler: app.lambda_handler
+      Runtime: python3.13
+      Architectures:
+        - x86_64
+      Policies:
+        - AmazonSESFullAccess
+        - AmazonS3ReadOnlyAccess
+
+Outputs:
+  SendEmailFunction:
+    Description: "Send Email Function ARN"
+    Value: !GetAtt SendEmailFunction.Arn

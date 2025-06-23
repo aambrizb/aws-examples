@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sam-basic-lambda
+
+  SAM Basic Lambda
+
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  HolaMundoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hola_mundo/
+      Handler: app.lambda_handler
+      Runtime: python3.13
+      Architectures:
+        - x86_64
+
+Outputs:
+  HolaMundoFunction:
+    Description: "Hola Mundo Lambda Function ARN"
+    Value: !GetAtt HolaMundoFunction.Arn
+  HolaMundoFunctionIamRole:
+    Description: "Implicido Role para HolaMundoFunction"
+    Value: !GetAtt HolaMundoFunctionRole.Arn

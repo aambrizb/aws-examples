@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sam-eventbridge-custom
+
+  Sample SAM Template for SAM EventBridge Custom Events
+
+Globals:
+  Function:
+    Timeout: 10
+
+Resources:
+
+  BridgeEventRule:
+    Type: AWS::Events::Rule
+    Properties:
+      EventPattern:
+        source:
+          - "app.globaltechia.com"
+        detail-type:
+          - "CustomEvent"
+      Targets:
+        - Arn: !GetAtt SendMailFunction.Arn
+          Id: TargetFunctionV1
+  PermissionInvokeLambda:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref SendMailFunction
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt BridgeEventRule.Arn
+  SendMailFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: send_email/
+      Handler: app.lambda_handler
+      Runtime: python3.13
+      Architectures:
+        - x86_64
+      Policies:
+        - AmazonSESFullAccess

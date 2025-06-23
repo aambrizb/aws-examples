@@ -1,0 +1,10 @@
+version = 0.1
+[aambrizb.deploy.parameters]
+stack_name = "sam-vpc-subnet"
+resolve_s3 = true
+s3_prefix = "sam-vpc-subnet"
+region = "us-east-1"
+profile = "aambrizb"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []

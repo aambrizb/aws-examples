@@ -1,0 +1,7 @@
+[
+  {
+    "Source": "my.custom.app",
+    "DetailType": "myCustomEvent",
+    "Detail": "{\"message\": \"Hello from custom event!\"}"
+  }
+]

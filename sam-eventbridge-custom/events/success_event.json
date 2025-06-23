@@ -1,0 +1,7 @@
+[
+  {
+    "Source": "app.globaltechia.com",
+    "DetailType": "CustomEvent",
+    "Detail": "{\"message\": \"Hello from custom event!\"}"
+  }
+]

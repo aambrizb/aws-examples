@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sam-postgresql
+
+  Sample SAM Template for create Database PostgreSQL
+
+Resources:
+  MyDatabase:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: aambrizb-db
+      AllocatedStorage: 20
+      DBInstanceClass: db.t3.micro
+      Engine: postgres
+      EngineVersion: "17.4"
+      MasterUsername: adminuser
+      MasterUserPassword: eXy5qUu21h
+      BackupRetentionPeriod: 7
+      PubliclyAccessible: true
+      VPCSecurityGroups:
+        - !GetAtt DBSecurityGroup.GroupId
+      DBName: aambrizbdb
+  DBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow Access PostgreSQL Database
+      VpcId: vpc-4545454578ac9faadc
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          CidrIp: 0.0.0.0/0
+
+Outputs:
+  DatabaseIP:
+    Description: Database Assign IP
+    Value: !Sub "${MyDatabase.Endpoint.Address}"
