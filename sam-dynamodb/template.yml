@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sam_dynamodb
+
+  Example Create DynamoDB Table 
+
+Resources:
+  DBDynamo:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: test_usuarios
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST

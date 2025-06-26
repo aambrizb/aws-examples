@@ -42,7 +42,14 @@ docker push 981539705167.dkr.ecr.us-east-1.amazonaws.com/sam_django_fargate
 aws ecr list-images --repository-name sam_django_fargate --region us-east-1 --profile aambrizb 
 ```
 
-## CloudFormation
+## Deploy SAM
+```
+sam build --profile aambrizb
+sam validate --profile aambrizb
+sam deploy --guided --profile aambrizb --guided
+```
+
+## Deploy CloudFormation
 
 ```
 aws cloudformation deploy --template-file template.yaml --stack-name sam-django-fargate --capabilities CAPABILITY_NAMED_IAM --region us-east-1 --profile aambrizb
