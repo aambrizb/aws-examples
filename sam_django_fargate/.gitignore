@@ -1,0 +1,5 @@
+db.sqlite3
+.env
+.aws-sam
+migrations/*
+__pycache__
